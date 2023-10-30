@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="add_person_entity" author="dduda">
+        <createTable tableName="person">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="unique_id" type="varchar(36)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints unique="false" nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(256)">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="type" type="varchar(12)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+            <column name="number" type="varchar(12)">
+                <constraints nullable="true" unique="true"/>
+            </column>
+            <column name="email" type="varchar(256)">
+                <constraints nullable="true" unique="true"/>
+            </column>
+            <column name="pesel" type="varchar(12)">
+                <constraints nullable="true" unique="true"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="person_seq" incrementBy="50"/>
+    </changeSet>
+</databaseChangeLog>

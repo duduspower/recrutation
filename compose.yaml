@@ -1,0 +1,42 @@
+networks:
+  internal:
+    driver: bridge
+    name: recrutation
+
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=recrutation'
+      - 'POSTGRES_PASSWORD=recrutation123'
+      - 'POSTGRES_USER=user'
+    container_name: database
+    networks:
+      - internal
+    ports:
+      - '5432:5432'
+  app:
+    image : recrutation:0.0.1-SNAPSHOT
+    container_name: recrutation-application
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/recrutation
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: recrutation123
+      SPRING_LIQUIBASE_URL: jdbc:postgresql://database:5432/recrutation
+      SPRING_LIQUIBASE_USER: user
+      SPRING_LIQUIBASE_PASSWORD: recrutation123
+      JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    depends_on:
+    - postgres
+    networks:
+      - internal
+    ports:
+      - '8080:8080'
+      - '5005:5005'
+    volumes:
+      - app:/src/main/resources/xmlDirectory
+volumes:
+  app:
+    driver: local
+  postgres:
+    driver: local
